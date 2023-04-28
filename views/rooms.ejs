@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venetian Resort Rooms</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap">
+    <link rel="icon" href="/images/hotel-icon.ico" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">The Venetian Resort</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/rooms">Rooms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/location">Location</a>
+                        </li>
+                    </ul>
+                </div>
+                <a class="btn btn-primary ms-auto" href="/rooms" role="button">Reserve a Room</a>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Room Display Section -->
+    <main class="container mt-4">
+        <div class="row">
+            <% rooms.forEach(room=> { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 room-wrapper" data-roomid="<%= room.roomid %>">
+                        <img src="images/room_images/<%= room.room_image %>" class="card-img-top room-image"
+                            alt="<%= room.room_name %>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= room.room_name %>
+                            </h5>
+                            <p class="card-text">Rating: <%= room.room_rating %></p>
+                            <ul class="list-unstyled amenities-container"></ul>
+                            <p class="card-text price"><strong>$<%= room.room_price %></strong></p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/reservation/<%= room.roomid %>" class="btn btn-primary">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </main>
+
+    <!-- Add JavaScript code to handle AJAX -->
+    <script>
+        $(document).ready(function () {
+            $(".room-wrapper").on("mouseover", function () {
+                const roomid = $(this).data("roomid");
+                const amenitiesContainer = $(this).find(".amenities-container");
+
+                if (!amenitiesContainer.data("loaded")) {
+                    $.ajax({
+                        url: "/room-amenities/" + roomid,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (amenities) {
+                            amenities.forEach(amenity => {
+                                const amenityElement = `<li>
+                                    <img src="images/icon_images/${amenity.icon_image}" alt="${amenity.amenity_text}">
+                                    ${amenity.amenity_text}
+                                </li>`;
+                                amenitiesContainer.append(amenityElement);
+                            });
+
+                            amenitiesContainer.data("loaded", true);
+                        }
+                    });
+                }
+
+                $(this).addClass("expanded");
+            });
+
+            $(".room-wrapper").on("mouseleave", function () {
+                $(this).removeClass("expanded");
+            });
+        });
+    </script>
+
+</body>
+</html>
