@@ -17,7 +17,7 @@ In addition, I spent a lot of time adjusting the style of the website to look as
 ## Conclusion
 I had a great time working on this project as it covered a great deal of content that I learned in my Web App and Dev class. I am confident in my ability to say that I've taken some major strides towards becoming a full-stack developer at this point. Feel free to check out my project regarding how I made my Cloud Resume as it was a bit similar to this, but instead the entire website was built using AWS as a platform. 
 
-Here's the links to that if you'd like to read more about that:
+Here are the links to that project's repositories if you're interested:
 
 https://github.com/joconr/Cloud-Resume-Project-Frontend
 
