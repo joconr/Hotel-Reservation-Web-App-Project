@@ -21,7 +21,7 @@ const db = mysql.createConnection({
     host: 'lmu.build',
     port: 3306,
     user: 'conroylm_dba',
-    password: 'springLMU_2023',
+    password: '--',
     database: 'conroylm_hotel_res'
 });
 
